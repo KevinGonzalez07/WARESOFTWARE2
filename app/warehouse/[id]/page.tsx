@@ -62,6 +62,7 @@ export default async function WarehousePage({
         <div className="flex-1 overflow-auto flex justify-center items-start p-10">
           <div style={{ backgroundColor }} className="rounded-3xl shadow-xl p-8">
             <WarehouseView
+              id={almacen.id_almacen}
               nombreAlmacen={almacen.nombre}
               descripcionAlmacen={almacen.descripcion}
               productos={productosTransformados}
