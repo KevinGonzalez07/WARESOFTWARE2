@@ -18,7 +18,6 @@ type Producto = {
 };
 
 type Props = {
-  id: number;
   nombreAlmacen: string;
   descripcionAlmacen: string;
   productos: Producto[];
