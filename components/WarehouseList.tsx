@@ -8,6 +8,7 @@ type Item = {
 };
 
 type WarehouseListProps = {
+  id: number;
   title: string;
   description?: string;
   items?: Item[];
