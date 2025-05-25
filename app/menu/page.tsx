@@ -59,8 +59,8 @@ export default function Menu() {
                 {almacenes.map((almacen, i) => (
                   <WarehouseCard
                     key={i}
-                    id={almacen.id_almacen}
-                    title={almacen.nombre}
+                    id={almacen.id}
+                    title={almacen.name}
                     color={colorMap[almacen.color - 1] || 'gray'}
                     items={almacen.productos || []}
                   />
