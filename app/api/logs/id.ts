@@ -16,7 +16,7 @@ export default async function funcionesId(req: NextApiRequest, res: NextApiRespo
         try{
             const logActualizado = await prisma.log.update({
                 where: {id_logs: Number(id)},
-                data: {id_productoalmacen, descripcion, fecha }       
+                data: {descripcion, fecha }       
             });
             return res.status(200).json(logActualizado);
         }catch (error){
