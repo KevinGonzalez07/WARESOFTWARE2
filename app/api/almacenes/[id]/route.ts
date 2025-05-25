@@ -7,10 +7,9 @@ export const runtime = 'nodejs'
 // GET: Obtener un almacén por ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ): Promise<NextResponse> {
-  // 1. Esperamos a que se resuelvan los params
-  const { id } = await params
+  const { id } = params
   const numericId = Number(id)
   if (isNaN(numericId)) {
     return NextResponse.json({ error: 'ID inválido' }, { status: 400 })
