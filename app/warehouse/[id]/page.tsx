@@ -26,14 +26,7 @@ const colorMap = [
   'rgb(108, 117, 125)', // 10 Gray
 ];
 
-export default async function WarehousePage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id: idStr } = params;
-  const id = Number(idStr);
-  if (isNaN(id)) notFound();
+export default async function WarehousePage({ params, }: { params: Promise<{ id: string }>; }) { const { id: idStr } = await params; const id = Number(idStr); if (isNaN(id)) notFound();
 
   const almacen = await obtenerAlmacenConProductos(id);
   if (!almacen) notFound();
