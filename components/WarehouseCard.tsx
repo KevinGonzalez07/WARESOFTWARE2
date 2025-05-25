@@ -21,7 +21,7 @@ export const WarehouseCard = ({ id, title, items, color }: WarehouseCardProps) =
 
   const handleClick = () => {
     if (typeof id === 'number' && !isNaN(id)) {
-      router.push(`/warehouse/${id}`);
+      router.push(`/almacenes/${id}`);
     } else {
       console.error("ID de almacén inválido:", id);
     }
