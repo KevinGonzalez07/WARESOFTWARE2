@@ -6,19 +6,30 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const id_usuario = parseInt(searchParams.get("id_usuario") || "", 10);
 
+  if (isNaN(id_usuario)) {
+    return NextResponse.json({ error: "id_usuario inválido" }, { status: 400 });
+  }
+
   try {
     const almacenes = await prisma.almacen.findMany({
       where: { id_usuario },
       include: {
         productos: {
-          include: {
-            proveedor: true,
+          select: {
+            existencia: true,
           },
         },
       },
     });
 
-    return NextResponse.json(almacenes);
+    // Transformar datos para UI
+    const transformados = almacenes.map((a) => ({
+      id: a.id_almacen,
+      name: a.nombre,
+      existencia: a.productos.reduce((acc, p) => acc + p.existencia, 0),
+    }));
+
+    return NextResponse.json(transformados);
   } catch (error) {
     console.error("Error al obtener almacenes:", error);
     return NextResponse.json({ error: "Error al obtener almacenes" }, { status: 500 });
