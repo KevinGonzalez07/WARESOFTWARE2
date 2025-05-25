@@ -1,6 +1,6 @@
 // app/api/almacenes/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import prisma from '@/lib/prisma'
+import prisma from '@/backend/prisma'
 
 export const runtime = 'nodejs'
 
