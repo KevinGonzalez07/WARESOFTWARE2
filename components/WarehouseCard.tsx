@@ -7,7 +7,7 @@ type ProductItem = {
 };
 
 type WarehouseCardProps = {
-  id: number | undefined;
+  id: number;
   title: string;
   items: ProductItem[];
   color: string;
@@ -19,17 +19,9 @@ export const WarehouseCard = ({ id, title, items, color }: WarehouseCardProps) =
   const visibleItems = items.slice(0, 5);
   const extraCount = items.length - visibleItems.length;
 
-  const handleClick = () => {
-    if (typeof id === 'number' && !isNaN(id)) {
-      router.push(`/almacenes/${id}`);
-    } else {
-      console.error("ID de almacén inválido:", id);
-    }
-  };
-
   return (
     <button
-      onClick={handleClick}
+      onClick={() => router.push(`/warehouse/${id}`)}
       className="rounded-2xl p-4 w-64 text-black text-left transition-transform hover:scale-105 hover:shadow-2xl focus:outline-none"
       style={{
         backgroundColor: color,
