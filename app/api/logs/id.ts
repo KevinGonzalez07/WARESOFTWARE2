@@ -12,7 +12,7 @@ export default async function funcionesId(req: NextApiRequest, res: NextApiRespo
     }
 
     if (req.method === 'PUT'){
-        const {id_productoalmacen, descripcion, fecha} = req.body;
+        const {descripcion, fecha} = req.body;
         try{
             const logActualizado = await prisma.log.update({
                 where: {id_logs: Number(id)},

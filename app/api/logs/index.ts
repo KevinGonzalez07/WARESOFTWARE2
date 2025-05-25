@@ -8,10 +8,10 @@ export default async function funciones(req: NextApiRequest, res:NextApiResponse
     }
 
     if (req.method === 'POST'){
-        const {id_productoalmacen, descripcion, fecha} = req.body;
+        const {descripcion, fecha} = req.body;
         try {
             const nuevoLog = await prisma.log.create({
-                data: {id_productoalmacen, descripcion, fecha},
+                data: {descripcion, fecha},
             });
             return res.status(201).json(nuevoLog);
         }catch(error){
