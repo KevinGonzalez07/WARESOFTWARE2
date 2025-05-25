@@ -58,7 +58,7 @@ export default function Menu() {
               <div className="flex gap-4 flex-wrap">
                 {almacenes.map((almacen, i) => (
                   <WarehouseCard
-                    key={i}
+                    key={almacen.id}
                     id={almacen.id}
                     title={almacen.name}
                     color={colorMap[almacen.color - 1] || 'gray'}
