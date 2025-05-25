@@ -29,9 +29,9 @@ const colorMap = [
 export default async function WarehousePage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id: idStr } = await params;
+  const { id: idStr } = params;
   const id = Number(idStr);
   if (isNaN(id)) notFound();
 
