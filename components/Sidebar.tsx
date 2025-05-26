@@ -362,9 +362,9 @@ const handleAdd = async () => {
             <h2 className="text-xl font-semibold mb-4 text-center">Selecciona un Almacén</h2>
             <ul className="space-y-2 max-h-64 overflow-y-auto">
               {almacenes.map((a) => (
-                <li key={a.id_almacen}>
-                  <button className={`w-full text-left p-2 rounded border ${selectedAlmacen?.id_almacen === a.id_almacen ? 'bg-gray-400' : 'bg-white'}`} onClick={() => setSelectedAlmacen(a)}>
-                    {a.nombre}
+                <li key={a.id}>
+                  <button className={`w-full text-left p-2 rounded border ${selectedAlmacen?.id === a.id ? 'bg-gray-400' : 'bg-white'}`} onClick={() => setSelectedAlmacen(a)}>
+                    {a.name}
                   </button>
                 </li>
               ))}
@@ -375,7 +375,7 @@ const handleAdd = async () => {
                 disabled={!selectedAlmacen}
                 onClick={() => {
                   if (!selectedAlmacen) return;
-                  setName(selectedAlmacen.nombre);
+                  setName(selectedAlmacen.name);
                   setDescription(selectedAlmacen.descripcion);
                   const colorName = colors[selectedAlmacen.color - 1]?.name;
                   setSelectedColor(colorName);
