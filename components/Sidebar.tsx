@@ -232,7 +232,7 @@ const handleAdd = async () => {
         <button
           onClick={() =>
             handleEditInit({
-              pathname,
+              pathname: pathname ?? '',
               setAlmacenes,
               setEditStep,
               setIsEditing,
@@ -248,7 +248,7 @@ const handleAdd = async () => {
             className="w-8 h-8 cursor-pointer"
             onClick={() =>
               handleDeleteInit({
-                pathname,
+                pathname:  pathname ?? '',
                 setAlmacenes,
                 setProductos,
                 setDeleteStep,
@@ -584,7 +584,7 @@ const handleAdd = async () => {
       productName,
       productDescription,
       imagen,
-      pathname,
+      pathname:  pathname ?? '',
       setIsEditing,
     })
   }
@@ -610,11 +610,11 @@ const handleAdd = async () => {
           </h2>
           <ul className="space-y-2 max-h-64 overflow-y-auto">
             {(pathname === '/menu' ? almacenes : productos).map((item) => (
-              <li key={pathname === '/menu' ? item.id_almacen : item.id_producto}>
+              <li key={pathname === '/menu' ? item.id : item.id_producto}>
                 <button
                   className={`w-full text-left p-2 rounded border ${
                     (pathname === '/menu' ? selectedToDelete?.id_almacen : selectedProducto?.id_producto) ===
-                    (pathname === '/menu' ? item.id_almacen : item.id_producto)
+                    (pathname === '/menu' ? item.id : item.id_producto)
                       ? 'bg-red-400'
                       : 'bg-white'
                   }`}
@@ -623,7 +623,7 @@ const handleAdd = async () => {
                     else setSelectedProducto(item);
                   }}
                 >
-                  {item.nombre}
+                  {item.name}
                 </button>
               </li>
             ))}
@@ -676,7 +676,7 @@ const handleAdd = async () => {
               onClick={() =>
                 eliminarEntidad({
                   pinCode,
-                  pathname,
+                  pathname:  pathname ?? '',
                   selectedToDelete,
                   selectedProducto,
                   setIsDeleting,
