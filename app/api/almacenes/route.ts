@@ -17,6 +17,7 @@ export async function GET(req: Request) {
         productos: {
           select: {
             existencia: true,
+            nombre: true,
           },
         },
       },
