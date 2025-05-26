@@ -1,3 +1,14 @@
+type Almacen = {
+  id_almacen: number;
+  nombre: string;
+};
+
+type Producto = {
+  id_producto: number;
+  nombre: string;
+  id_almacen: number;
+};
+
 export async function eliminarEntidad({
   pinCode,
   pathname,
@@ -8,17 +19,20 @@ export async function eliminarEntidad({
 }: {
   pinCode: string;
   pathname: string;
-  selectedToDelete: any;
-  selectedProducto: any;
+  selectedToDelete: Almacen | null;
+  selectedProducto: Producto | null;
   setIsDeleting: (val: boolean) => void;
   setPinCode: (val: string) => void;
 }) {
   try {
     const id_usuario = localStorage.getItem("id_usuario");
-    if (!id_usuario) return alert("No se encontró el ID del usuario");
+    if (!id_usuario) {
+      alert("No se encontró el ID del usuario");
+      return;
+    }
 
     const userRes = await fetch(`/api/usuarios/${id_usuario}`);
-    if (!userRes.ok) throw new Error("Error al obtener usuario");
+    if (!userRes.ok) throw new Error("Error al obtener el usuario");
     const user = await userRes.json();
 
     if (String(user.clave) !== pinCode) {
@@ -26,69 +40,63 @@ export async function eliminarEntidad({
       return;
     }
 
-    if (pathname === '/menu') {
-      if (!selectedToDelete?.id || !selectedToDelete?.nombre) {
-        return alert("Selecciona un almacén válido");
+    if (pathname === "/menu") {
+      if (!selectedToDelete) {
+        alert("Selecciona un almacén");
+        return;
       }
 
-      const descripcion = `Almacén "${selectedToDelete.nombre}" eliminado`;
-
-      const trashRes = await fetch('/api/trash', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("/api/trash", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          descripcion,
+          descripcion: `Almacén "${selectedToDelete.nombre}" eliminado`,
           id_usuario: parseInt(id_usuario),
         }),
       });
-      if (!trashRes.ok) throw new Error("Error al registrar en trash");
 
-      const deleteRes = await fetch(`/api/almacenes/${selectedToDelete.id}`, {
-        method: 'DELETE',
+      const res = await fetch(`/api/almacenes/${selectedToDelete.id_almacen}`, {
+        method: "DELETE",
       });
-      if (!deleteRes.ok) throw new Error("Error al eliminar almacén");
+      if (!res.ok) throw new Error("Error al eliminar almacén");
 
-      const logRes = await fetch('/api/logs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("/api/logs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          descripcion,
-          id_almacen: selectedToDelete.id,
+          descripcion: `Almacén "${selectedToDelete.nombre}" eliminado`,
+          id_almacen: selectedToDelete.id_almacen,
         }),
       });
-      if (!logRes.ok) throw new Error("Error al registrar en logs");
 
       alert("Almacén eliminado correctamente");
     } else {
-      if (!selectedProducto?.id_producto || !selectedProducto?.nombre) {
-        return alert("Selecciona un producto válido");
+      if (!selectedProducto) {
+        alert("Selecciona un producto");
+        return;
       }
 
-      const descripcion = `Producto "${selectedProducto.nombre}" eliminado`;
-
-      const deleteRes = await fetch(`/api/productos/${selectedProducto.id_producto}`, {
-        method: 'DELETE',
+      const res = await fetch(`/api/productos/${selectedProducto.id_producto}`, {
+        method: "DELETE",
       });
-      if (!deleteRes.ok) throw new Error("Error al eliminar producto");
+      if (!res.ok) throw new Error("Error al eliminar producto");
 
-      const logRes = await fetch('/api/logs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("/api/logs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          descripcion,
+          descripcion: `Producto "${selectedProducto.nombre}" eliminado`,
           id_almacen: selectedProducto.id_almacen,
         }),
       });
-      if (!logRes.ok) throw new Error("Error al registrar en logs");
 
       alert("Producto eliminado correctamente");
     }
 
     setIsDeleting(false);
-    setPinCode('');
-  } catch (error) {
-    console.error(error);
-    alert(`Error al eliminar el ${pathname === '/menu' ? 'almacén' : 'producto'}`);
-    setIsDeleting(false);
+    setPinCode("");
+  } catch (e) {
+    console.error(e);
+    alert(`Error al eliminar el ${pathname === "/menu" ? "almacén" : "producto"}`);
   }
 }
