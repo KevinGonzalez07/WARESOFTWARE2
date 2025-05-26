@@ -1,4 +1,4 @@
-type Almacen = {
+type AlmacenIU = {
   id: number;
   name: string;
   color: number;
@@ -21,7 +21,7 @@ export async function eliminarEntidad({
 }: {
   pinCode: string;
   pathname: string;
-  selectedToDelete: Almacen | null;
+  selectedToDelete: AlmacenIU | null;
   selectedProducto: Producto | null;
   setIsDeleting: (val: boolean) => void;
   setPinCode: (val: string) => void;
