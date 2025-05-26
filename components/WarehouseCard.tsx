@@ -17,7 +17,7 @@ export const WarehouseCard = ({ id, title, items, color }: WarehouseCardProps) =
   const router = useRouter();
 
   const visibleItems = items.slice(0, 5);
-  const extraCount = items.length - visibleItems.length;
+  const extraCount = items.length > 5 ? items.length - 5 : 0;
 
   return (
     <button
