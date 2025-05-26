@@ -613,10 +613,12 @@ const handleAdd = async () => {
           </h2>
           <ul className="space-y-2 max-h-64 overflow-y-auto">
             {(pathname === '/menu' ? almacenes : productos).map((item) => (
-              <li key={pathname === '/menu' ? item.id_almacen : item.id_producto}>
+              <li key={pathname === '/menu' ? item.id : item.id_producto}>
                 <button
                   className={`w-full text-left p-2 rounded border ${
-                    (pathname === '/menu' ? selectedToDelete?.id_almacen : selectedProducto?.id_producto) === (pathname === '/menu' ? item.id_almacen : item.id_producto)
+                    (pathname === '/menu'
+                      ? selectedToDelete?.id_almacen === item.id
+                      : selectedProducto?.id_producto === item.id_producto)
                       ? 'bg-red-400'
                       : 'bg-white'
                   }`}
@@ -625,14 +627,22 @@ const handleAdd = async () => {
                     else setSelectedProducto(item);
                   }}
                 >
-                  {item.nombre}
+                  {pathname === '/menu' ? item.name : item.nombre}
                 </button>
               </li>
             ))}
           </ul>
           <div className="flex justify-end space-x-4 mt-4">
-            <button onClick={() => setIsDeleting(false)} className="px-4 py-2 bg-gray-400 hover:bg-gray-500 rounded text-white">Cancelar</button>
-            <button disabled={!(pathname === '/menu' ? selectedToDelete : selectedProducto)} onClick={() => setDeleteStep(2)} className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-white disabled:opacity-50">Siguiente</button>
+            <button onClick={() => setIsDeleting(false)} className="px-4 py-2 bg-gray-400 hover:bg-gray-500 rounded text-white">
+              Cancelar
+            </button>
+            <button
+              disabled={!(pathname === '/menu' ? selectedToDelete : selectedProducto)}
+              onClick={() => setDeleteStep(2)}
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-white disabled:opacity-50"
+            >
+              Siguiente
+            </button>
           </div>
         </>
       ) : (
@@ -657,24 +667,24 @@ const handleAdd = async () => {
             className="w-full p-2 border bg-white border-gray-300 rounded mb-4"
           />
           <div className="flex justify-end space-x-4">
-            
-            
-            <button onClick={() => setIsDeleting(false)} className="px-4 py-2 bg-gray-400 hover:bg-gray-500 rounded text-white">Cancelar</button>
+            <button onClick={() => setIsDeleting(false)} className="px-4 py-2 bg-gray-400 hover:bg-gray-500 rounded text-white">
+              Cancelar
+            </button>
             <button
-                onClick={() =>
-                  eliminarEntidad({
-                    pinCode,
-                    pathname,
-                    selectedToDelete,
-                    selectedProducto,
-                    setIsDeleting,
-                    setPinCode,
-                  })
-                }
-                className="px-4 py-2 bg-red-700 hover:bg-red-800 rounded text-white"
-              >
-                Eliminar
-              </button>
+              onClick={() =>
+                eliminarEntidad({
+                  pinCode,
+                  pathname,
+                  selectedToDelete,
+                  selectedProducto,
+                  setIsDeleting,
+                  setPinCode,
+                })
+              }
+              className="px-4 py-2 bg-red-700 hover:bg-red-800 rounded text-white"
+            >
+              Eliminar
+            </button>
           </div>
         </>
       )}

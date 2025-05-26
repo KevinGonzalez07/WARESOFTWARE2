@@ -1,6 +1,8 @@
 type Almacen = {
-  id_almacen: number;
-  nombre: string;
+  id: number;
+  name: string;
+  color: number;
+  productos: Producto[];
 };
 
 type Producto = {
@@ -50,12 +52,12 @@ export async function eliminarEntidad({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          descripcion: `Almacén "${selectedToDelete.nombre}" eliminado`,
+          descripcion: `Almacén "${selectedToDelete.name}" eliminado`,
           id_usuario: parseInt(id_usuario),
         }),
       });
 
-      const res = await fetch(`/api/almacenes/${selectedToDelete.id_almacen}`, {
+      const res = await fetch(`/api/almacenes/${selectedToDelete.id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Error al eliminar almacén");
@@ -64,8 +66,8 @@ export async function eliminarEntidad({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          descripcion: `Almacén "${selectedToDelete.nombre}" eliminado`,
-          id_almacen: selectedToDelete.id_almacen,
+          descripcion: `Almacén "${selectedToDelete.name}" eliminado`,
+          id_almacen: selectedToDelete.id,
         }),
       });
 
