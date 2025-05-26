@@ -23,13 +23,13 @@ export async function GET(req: Request) {
       },
     });
 
-    // Transformar datos para UI
+    
     const transformados = almacenes.map((a) => ({
-      id: a.id_almacen,
-      color: a.color,
-      name: a.nombre,
-      productos: a.productos,
-    }));
+  id_almacen: a.id_almacen,
+  color: a.color,
+  nombre: a.nombre,
+  productos: a.productos,
+}));
 
     return NextResponse.json(transformados);
   } catch (error) {
