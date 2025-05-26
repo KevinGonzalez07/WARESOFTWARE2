@@ -68,7 +68,7 @@ const Sidebar = () => {
   ]
 
   useEffect(() => {
-    if (pathname.startsWith('/warehouse')) {
+    if (pathname && pathname.startsWith('/warehouse')) {
       fetch('/api/proveedores')
         .then(res => res.json())
         .then(setProveedores)
@@ -77,8 +77,8 @@ const Sidebar = () => {
   }, [pathname])
 
   useEffect(() => {
-  if (pathname.startsWith('/warehouse') && editOption === 'producto' && editStep === 1) {
-    const almacenId = Number(pathname.split('/').pop());
+  if (pathname && pathname.startsWith('/warehouse') && editOption === 'producto' && editStep === 1) {
+    const almacenId = Number((pathname ?? '').split('/').pop());
     if (!almacenId) return;
 
     fetch(`/api/productos?id_almacen=${almacenId}`)
@@ -131,7 +131,7 @@ const handleAdd = async () => {
     }
   } else if (addOption === 'producto') {
     // AGREGAR PRODUCTO
-    const almacenId = Number(pathname.split('/').pop());
+    const almacenId = Number((pathname ?? '').split('/').pop());
     try {
       const res = await fetch('/api/productos', {
         method: 'POST',
@@ -183,7 +183,7 @@ const handleAdd = async () => {
     if (!res.ok) throw new Error('Error al crear proveedor');
 
     // ✅ Agregar log de creación de proveedor (sin almacén directo)
-    const almacenId = Number(pathname.split('/').pop());
+    const almacenId = Number((pathname ?? '').split('/').pop());
     await fetch('/api/logs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
