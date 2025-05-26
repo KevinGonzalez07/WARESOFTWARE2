@@ -17,7 +17,7 @@ export default async function ProductPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id: idStr } = await params;
+  const { id: idStr } = await params; //hola
   const id = Number(idStr);
   if (isNaN(id)) notFound();
 
