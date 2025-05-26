@@ -405,7 +405,7 @@ const handleAdd = async () => {
                 onClick={() => {
                   if (!selectedAlmacen) return alert('Selecciona un almacén');
                   editarAlmacen({
-                    selectedAlmacen,
+                    selectedAlmacen: { ...selectedAlmacen, id: selectedAlmacen.id_almacen },
                     name,
                     description,
                     selectedColor,
