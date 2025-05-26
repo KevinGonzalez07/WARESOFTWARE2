@@ -74,7 +74,7 @@ export default function WarehousePage() {
                   title="Almacén"
                   items={almacenes.map((a) => ({
                     id: a.id_almacen,
-                    name: a.nombre,
+                    name: a.name,
                     existencia: a.productos,
                   }))}
                   onItemClick={handleItemClick}
