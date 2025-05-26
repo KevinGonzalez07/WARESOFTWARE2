@@ -1,16 +1,3 @@
-type Almacen = {
-  id: number;
-  name: string;
-  color: number;
-  productos: Producto[];
-};
-
-type Producto = {
-  id_producto: number;
-  nombre: string;
-  id_almacen: number;
-};
-
 export async function eliminarEntidad({
   pinCode,
   pathname,
@@ -21,20 +8,16 @@ export async function eliminarEntidad({
 }: {
   pinCode: string;
   pathname: string;
-  selectedToDelete: Almacen | null;
-  selectedProducto: Producto | null;
+  selectedToDelete: any;
+  selectedProducto: any;
   setIsDeleting: (val: boolean) => void;
   setPinCode: (val: string) => void;
 }) {
   try {
     const id_usuario = localStorage.getItem("id_usuario");
-    if (!id_usuario) {
-      alert("No se encontró el ID del usuario");
-      return;
-    }
+    if (!id_usuario) return alert("No se encontró el ID del usuario");
 
     const userRes = await fetch(`/api/usuarios/${id_usuario}`);
-    if (!userRes.ok) throw new Error("Error al obtener el usuario");
     const user = await userRes.json();
 
     if (String(user.clave) !== pinCode) {
@@ -42,50 +25,44 @@ export async function eliminarEntidad({
       return;
     }
 
-    if (pathname === "/menu") {
-      if (!selectedToDelete) {
-        alert("Selecciona un almacén");
-        return;
-      }
+if (pathname === '/menu') {
+  if (!selectedToDelete) return alert("Selecciona un almacén");
 
-      await fetch("/api/trash", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          descripcion: `Almacén "${selectedToDelete.name}" eliminado`,
-          id_usuario: parseInt(id_usuario),
-        }),
-      });
+  await fetch('/api/trash', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      descripcion: `Almacén "${selectedToDelete.nombre}" eliminado`,
+      id_usuario: parseInt(id_usuario),
+    }),
+  });
 
-      const res = await fetch(`/api/almacenes/${selectedToDelete.id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Error al eliminar almacén");
+  const res = await fetch(`/api/almacenes/${selectedToDelete.id_almacen}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error();
 
-      await fetch("/api/logs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          descripcion: `Almacén "${selectedToDelete.name}" eliminado`,
-          id_almacen: selectedToDelete.id,
-        }),
-      });
+  await fetch('/api/logs', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      descripcion: `Almacén "${selectedToDelete.nombre}" eliminado`,
+      id_almacen: selectedToDelete.id_almacen,
+    }),
+  });
 
-      alert("Almacén eliminado correctamente");
-    } else {
-      if (!selectedProducto) {
-        alert("Selecciona un producto");
-        return;
-      }
-
+  alert("Almacén eliminado correctamente");
+}
+ else {
+      if (!selectedProducto) return alert("Selecciona un producto");
       const res = await fetch(`/api/productos/${selectedProducto.id_producto}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
-      if (!res.ok) throw new Error("Error al eliminar producto");
+      if (!res.ok) throw new Error();
 
-      await fetch("/api/logs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      await fetch('/api/logs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           descripcion: `Producto "${selectedProducto.nombre}" eliminado`,
           id_almacen: selectedProducto.id_almacen,
@@ -96,9 +73,8 @@ export async function eliminarEntidad({
     }
 
     setIsDeleting(false);
-    setPinCode("");
-  } catch (e) {
-    console.error(e);
-    alert(`Error al eliminar el ${pathname === "/menu" ? "almacén" : "producto"}`);
+    setPinCode('');
+  } catch {
+    alert(`Error al eliminar el ${pathname === '/menu' ? 'almacén' : 'producto'}`);
   }
 }
