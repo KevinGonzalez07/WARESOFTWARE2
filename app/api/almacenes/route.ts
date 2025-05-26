@@ -25,9 +25,9 @@ export async function GET(req: Request) {
 
     
     const transformados = almacenes.map((a) => ({
-  id_almacen: a.id_almacen,
+  id: a.id_almacen,
   color: a.color,
-  nombre: a.nombre,
+  name: a.nombre,
   productos: a.productos,
 }));
 
