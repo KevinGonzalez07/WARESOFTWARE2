@@ -2,10 +2,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/backend/prisma';
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const id_producto = parseInt(params.id, 10);
-
+export async function PUT(req: NextRequest) {
   try {
+    const url = new URL(req.url);
+    const idStr = url.pathname.split('/').pop();
+    const id_producto = parseInt(idStr || '', 10);
+
+    if (isNaN(id_producto)) {
+      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+    }
+
     const body = await req.json();
     const { nombre, descripcion, existencia, imagen, id_proveedor } = body;
 
@@ -37,14 +43,16 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
-  const id_producto = parseInt(params.id, 10);
-
-  if (isNaN(id_producto)) {
-    return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
-  }
-
+export async function DELETE(req: NextRequest) {
   try {
+    const url = new URL(req.url);
+    const idStr = url.pathname.split('/').pop();
+    const id_producto = parseInt(idStr || '', 10);
+
+    if (isNaN(id_producto)) {
+      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+    }
+
     await prisma.producto.delete({
       where: { id_producto },
     });
