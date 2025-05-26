@@ -7,7 +7,7 @@ export async function editarAlmacen({
   colors,
   setIsEditing,
 }: {
-  selectedAlmacen: { id: number };
+  selectedAlmacen: { id_almacen: number };
   name: string;
   description: string;
   selectedColor: string;
@@ -19,7 +19,7 @@ export async function editarAlmacen({
   try {
     if (!selectedAlmacen) return alert('Selecciona un almacén');
 
-    const res = await fetch(`/api/almacenes/${selectedAlmacen.id}`, {
+    const res = await fetch(`/api/almacenes/${selectedAlmacen.id_almacen}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -36,7 +36,7 @@ export async function editarAlmacen({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         descripcion: `Almacén "${name}" editado`,
-        id_almacen: selectedAlmacen.id,
+        id_almacen: selectedAlmacen.id_almacen,
       }),
     });
 
