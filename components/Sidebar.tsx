@@ -7,15 +7,12 @@ import { editarProducto } from './sidebarFunciones/editarProducto'
 import { editarAlmacen } from './sidebarFunciones/editarAlmacen'
 import { handleDeleteInit } from './sidebarFunciones/eliminarUnidad'
 import { handleEditInit } from './sidebarFunciones/editarUnidad'
+import type { Almacen } from '@prisma/client';
+
 import { handleAddAlmacen } from './sidebarFunciones/anadirAlmacen'
 import {handleAddProveedor} from './sidebarFunciones/anadirProovedor'
 
-type Almacen = {
-  id_almacen: number
-  nombre: string
-  descripcion: string
-  color: number
-}
+
 
 const Sidebar = () => {
   const router = useRouter()
