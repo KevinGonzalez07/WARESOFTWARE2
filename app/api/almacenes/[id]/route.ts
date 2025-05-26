@@ -7,28 +7,29 @@ export const runtime = 'nodejs'
 // GET: Obtener un almacén por ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ): Promise<NextResponse> {
-  const { id } = await params
-  const numericId = Number(id)
+  const { id } = params;
+  const numericId = Number(id);
   if (isNaN(numericId)) {
-    return NextResponse.json({ error: 'ID inválido' }, { status: 400 })
+    return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
   }
 
   try {
     const almacen = await prisma.almacen.findUnique({
       where: { id_almacen: numericId },
       include: { productos: { include: { proveedor: true } } },
-    })
+    });
     if (!almacen) {
-      return NextResponse.json({ error: 'Almacén no encontrado' }, { status: 404 })
+      return NextResponse.json({ error: 'Almacén no encontrado' }, { status: 404 });
     }
-    return NextResponse.json(almacen)
+    return NextResponse.json(almacen);
   } catch (error) {
-    console.error('Error al obtener el almacén:', error)
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 })
+    console.error('Error al obtener el almacén:', error);
+    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
   }
 }
+
 
 // PUT: Actualizar un almacén por ID
 export async function PUT(
